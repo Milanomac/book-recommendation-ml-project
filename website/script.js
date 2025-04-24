@@ -18,6 +18,11 @@ function getRecommendations() {
         Array.isArray(data.recommendations) &&
         data.recommendations.length > 0
       ) {
+        const titleHeading = document.createElement("h3");
+        titleHeading.textContent = `Recommendations for "${
+          document.getElementById("bookInput").value
+        }":`;
+        recommendationList.appendChild(titleHeading);
         data.recommendations.forEach((book) => {
           const listItem = document.createElement("li");
           const image = document.createElement("img");
@@ -36,6 +41,27 @@ function getRecommendations() {
 
           recommendationList.appendChild(listItem);
         });
+      } else if (
+        data.suggestions &&
+        Array.isArray(data.suggestions) &&
+        data.suggestions.length > 0
+      ) {
+        const suggestionHeading = document.createElement("h3");
+        suggestionHeading.textContent = `Did you mean?`;
+        recommendationList.appendChild(suggestionHeading);
+        const suggestionsList = document.createElement("ul");
+        data.suggestions.forEach((suggestion) => {
+          const suggestionItem = document.createElement("li");
+          const suggestionButton = document.createElement("button");
+          suggestionButton.textContent = suggestion;
+          suggestionButton.onclick = () => {
+            document.getElementById("bookInput").value = suggestion;
+            getRecommendations(); // Call getRecommendations again with the suggested title
+          };
+          suggestionItem.appendChild(suggestionButton);
+          suggestionsList.appendChild(suggestionItem);
+        });
+        recommendationList.appendChild(suggestionsList);
       } else if (data.error) {
         const listItem = document.createElement("li");
         listItem.textContent = `Error: ${data.error}`;
