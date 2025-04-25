@@ -35,8 +35,15 @@ function getRecommendations() {
           title.textContent = book.title;
           const author = document.createElement("p");
           author.textContent = "Author: " + book.author;
+          const avgRating = document.createElement("p");
+          avgRating.textContent =
+            "Average rating: " + book.average_rating.toFixed(2); // Display 2 decimal places
+          const ratingCount = document.createElement("p");
+          ratingCount.textContent = "Number of reviews: " + book.rating_count;
           details.appendChild(title);
           details.appendChild(author);
+          details.appendChild(avgRating);
+          details.appendChild(ratingCount);
           listItem.appendChild(details);
 
           recommendationList.appendChild(listItem);
@@ -53,12 +60,19 @@ function getRecommendations() {
         data.suggestions.forEach((suggestion) => {
           const suggestionItem = document.createElement("li");
           const suggestionButton = document.createElement("button");
-          suggestionButton.textContent = suggestion;
+          suggestionButton.textContent = suggestion.title;
           suggestionButton.onclick = () => {
-            document.getElementById("bookInput").value = suggestion;
-            getRecommendations(); // Call getRecommendations again with the suggested title
+            document.getElementById("bookInput").value = suggestion.title;
+            getRecommendations();
           };
+          const suggestionDetails = document.createElement("div");
+          suggestionDetails.textContent = `Author: ${
+            suggestion.author
+          }, Average rating: ${suggestion.average_rating.toFixed(
+            2
+          )}, Number of reviews: ${suggestion.rating_count}`;
           suggestionItem.appendChild(suggestionButton);
+          suggestionItem.appendChild(suggestionDetails);
           suggestionsList.appendChild(suggestionItem);
         });
         recommendationList.appendChild(suggestionsList);
