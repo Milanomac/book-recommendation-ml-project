@@ -31,7 +31,7 @@ This makes the system a **hybrid of similarity-based and popularity-based recomm
 
 ### Architecture
 
-![System Architecture](./Architecture_powerpoint.png)
+![System Architecture](./Architecture_powerpoint.jpg)
 
 1. Jupyter Notebook is used for data exploration, similarity computation, and generating the `.pkl` files.
 2. Flask serves the `/recommend` API endpoint and loads the `.pkl` files.
